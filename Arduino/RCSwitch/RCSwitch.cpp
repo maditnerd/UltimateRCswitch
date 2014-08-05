@@ -789,11 +789,11 @@ void RCSwitch::handleInterrupt() {
   RCSwitch::timings[changeCount++] = duration;
   lastTime = time;  
 }
-#endif
 
 /**
   * Turns a decimal value to its binary representation
   */
+#endif
 char* RCSwitch::dec2binWzerofill(unsigned long Dec, unsigned int bitLength){
     return dec2binWcharfill(Dec, bitLength, '0');
 }
@@ -818,6 +818,7 @@ char* RCSwitch::dec2binWcharfill(unsigned long Dec, unsigned int bitLength, char
   
   return bin;
 }
+
 
 
 

@@ -72,6 +72,9 @@ class RCSwitch {
     void sendTriState(char* Code);
     void send(unsigned long Code, unsigned int length);
     void send(char* Code);
+	
+	  static char* dec2binWzerofill(unsigned long dec, unsigned int length);
+    static char* dec2binWcharfill(unsigned long dec, unsigned int length, char fill);
     
     #if not defined( RCSwitchDisableReceiving )
     void enableReceive(int interrupt);
@@ -111,8 +114,7 @@ class RCSwitch {
     void sendSync();
     void transmit(int nHighPulses, int nLowPulses);
 
-    static char* dec2binWzerofill(unsigned long dec, unsigned int length);
-    static char* dec2binWcharfill(unsigned long dec, unsigned int length, char fill);
+  
     
     #if not defined( RCSwitchDisableReceiving )
     static void handleInterrupt();
