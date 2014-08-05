@@ -1,3 +1,8 @@
+# Important Note:
+* Arduino libraries don't have VENUS/CHACON protocol yet
+* Raspberry Pi libraries don't have a RCsend ready to use
+
+
 # Ultimate RCSwitch Library 
   Raspberry Pi library for remote control outlet switches
   
