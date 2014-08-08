@@ -1,7 +1,5 @@
 # Important Note:
 * Arduino libraries don't have VENUS/CHACON protocol yet
-* Raspberry Pi libraries don't have a RCsend ready to use
-
 
 # Ultimate RCSwitch Library 
   Raspberry Pi library for remote control outlet switches
@@ -50,6 +48,26 @@
 
 # How to compile a program with this
   ````g++ RCsend.cpp RCSwitch.cpp -o RCsend -lwiringPi````
+
+# How to use Rpi/RCsend
+
+## RCSWITCH
+Note: Most power outlets use Protocol 1
+
+* RCsend 1:code 
+* RCsend 2:code 
+* RCsend 3:code 
+* RCsend 5:code 
+
+### Example:
+* RCsend 1:12345
+
+## CHACON
+* RCsend 4:remotecode:button:1 (on)
+* RCsend 4:remotecode:button:0 (off)
+
+### Example:
+* RCsend 4:12345678:1:1 (Button 1 Remote:12345678 on)
 
 Have fun and happy Hacking!
 
