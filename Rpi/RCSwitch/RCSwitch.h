@@ -93,8 +93,6 @@
 #define PROTOCOL3_1_HIGH_CYCLES  9
 #define PROTOCOL3_1_LOW_CYCLES   6
 
-
-
   class RCSwitch {
 
   public:

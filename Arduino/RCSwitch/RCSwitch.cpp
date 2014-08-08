@@ -753,6 +753,9 @@ bool RCSwitch::receiveProtocol3(unsigned int changeCount){
       }
 }
 
+/** Protocol 3 is used by BL35P02.
+ *
+ */
 void RCSwitch::handleInterrupt() {
 
   static unsigned int duration;
@@ -764,6 +767,131 @@ void RCSwitch::handleInterrupt() {
   long time = micros();
   duration = time - lastTime;
  
+  /* HOME EASY */
+int i = 0;
+unsigned long t = 0;
+//avant dernier byte reçu
+int prevBit = 0;
+//dernier byte reçu
+int bit = 0;
+
+//Remote ID state
+unsigned long sender = 0;
+//Group state
+boolean group = false;
+//On/off State
+boolean on = false;
+//Button ID is set to zero
+unsigned long recipient = 0;
+
+  t = pulseIn(receiverPin, LOW, 1000000);
+
+//Latch 1
+  while((t < 2550 || t > 2700)){
+                detect_rcswitch();
+    t = pulseIn(receiverPin, LOW,1000000);
+  }
+  //Serial.println("Latch 1 detected : OK");
+
+  while(i < 64)
+  {
+    t = pulseIn(receiverPin, LOW, 1000000);
+                //Serial.print("t = ");
+                //Serial.println(t);
+
+//Define bit 1/0
+    if(t > 200 && t < 365)
+    {
+      bit = 0;
+    }
+
+    else if(t > 1000 && t < 1360)
+    {
+      bit = 1;
+    }
+    else
+    {
+      i = 0;
+      break;
+    }
+
+
+    if(i % 2 == 1)
+    {
+      if((prevBit ^ bit) == 0)
+      {
+// Must be 01 or 10, not 00 or 11 or message is dropped
+        i = 0;
+        break;
+      }
+
+      if(i < 53)
+      {
+// 26 firsts bits (0-25) are remote ID
+        sender <<= 1;
+        sender |= prevBit;
+      }      
+      else if(i == 53)
+      {
+// 26 bit is group bit
+        group = prevBit;
+      }
+      else if(i == 55)
+      {
+// 27 bit is state bit (on/off)
+        on = prevBit;
+      }
+
+      else
+      {
+// Last 4 bits (28-32) are buttons ID
+        recipient <<= 1;
+        recipient |= prevBit;
+      }
+    }
+
+    prevBit = bit;
+    ++i;
+  }
+
+//If data are detected
+  if(i>0){
+
+                Serial.print("4");
+                Serial.print(":");
+                Serial.print(sender); //Remote ID
+                Serial.print(":");
+                Serial.print(recipient); //Button ID
+                
+                // Group ID
+    if(group)
+    {
+          Serial.print(":");
+                      Serial.print(group); 
+    }
+
+                // State
+    if(on)
+    {
+      Serial.println(":on");
+    }
+    else
+    {
+      Serial.println(":off");
+    }
+  }
+
+
+
+  /* HOME EASY */
+
+
+
+
+
+
+
+
   if (duration > 5000 && duration > RCSwitch::timings[0] - 200 && duration < RCSwitch::timings[0] + 200) {
     repeatCount++;
     changeCount--;
