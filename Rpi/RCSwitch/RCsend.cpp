@@ -4,13 +4,24 @@ RFsend hacked from codesend by Sarrailh Remi
 
  'codesend' hacked from 'send' by @justy
  
- - The provided rc_switch 'send' command uses the form systemCode, unitCode, command
-   which is not suitable for our purposes.  Instead, we call 
-   send(code, length); // where length is always 24 and code is simply the code
-   we find using the RF_sniffer.ino Arduino sketch.
+Usage:
+RCSWITCH
+RCsend 1:code
+RCsend 2:code
+RCsend 3:code
+RCsend 5:code
 
- Usage: ./RFsend transmitterPin decimalcode
- (Use RF_Sniffer.ino to check that RF signals are being produced by the RPi's transmitter)
+Example:
+RCsend 1:12345
+
+CHACON
+RCsend 4:remotecode:button:1 (on)
+RCsend 4:remotecode:button:0 (off)
+
+Example:
+RCsend 4:12345678:1:1 (Button 1 Remote:12345678 on)
+
+
  */
 
 #include "RCSwitch.h"
